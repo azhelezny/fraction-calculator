@@ -11,9 +11,7 @@ public class Fraction {
 
     public Fraction(long numerator, long denominator) {
         this.denominator = Math.abs(denominator);
-        this.numerator = numerator;
-        if (this.denominator < 1)
-            this.numerator = this.numerator * (-1);
+        this.numerator = (denominator < 1) ? -numerator : numerator;
         this.simplify();
     }
 
@@ -25,33 +23,28 @@ public class Fraction {
         return denominator;
     }
 
-    public void doOperation(Operations operation, Fraction b) {
+    public static Fraction doOperation(Fraction a, Operations operation, Fraction b) {
         if (operation == null || b == null)
-            return;
-        this.simplify();
-        b.simplify();
+            return null;
 
-        if (b.getDenominator() == this.denominator) {
-            this.numerator += b.numerator;
-            return;
-        }
+        if (b.getDenominator() == a.getDenominator())
+            return new Fraction(a.getNumerator() + b.getNumerator(), a.getDenominator());
+
         if (operation.equals(Operations.add) || operation.equals(Operations.sub)) {
-            long nok = lcm(b.getDenominator(), this.denominator);
-            long firstNum = this.numerator * (nok / b.numerator);
-            long secondNum = b.numerator * (nok / this.numerator);
+            long nok = lcm(a.getDenominator(), b.getDenominator());
+            long firstNum = a.getNumerator() * (nok / a.getDenominator());
+            long secondNum = b.getNumerator() * (nok / b.getDenominator());
 
-            this.numerator = firstNum + (operation.equals(Operations.add) ? secondNum : -secondNum);
-            this.denominator = nok;
+            return new Fraction(firstNum + ((operation.equals(Operations.add)) ? secondNum : -secondNum), nok);
         }
-        if (operation.equals(Operations.mult)) {
-            this.numerator *= b.getNumerator();
-            this.denominator *= b.getDenominator();
-        }
-        if (operation.equals(Operations.div)) {
-            this.numerator *= b.getDenominator();
-            this.denominator *= b.getNumerator();
-        }
-        this.simplify();
+
+        if (operation.equals(Operations.mult))
+            return new Fraction(a.getNumerator() * b.getNumerator(), a.getDenominator() * b.getDenominator());
+
+        if (operation.equals(Operations.div))
+            return new Fraction(a.getNumerator() * b.getDenominator(), a.getDenominator() * b.getNumerator());
+
+        return null;
     }
 
     public void simplify() {
