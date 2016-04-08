@@ -188,6 +188,7 @@ public class UI extends JFrame {
 				}
 				cleanFields();
 				displayLeft(firstFraction);
+				prevNumerator.setText(prevNumerator.getText()+" "+currentOperation.toString());
 			} else {
 				if (currentOperation != null) {
 
