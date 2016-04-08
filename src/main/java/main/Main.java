@@ -12,6 +12,7 @@ public class Main {
 		ui.setVisible(true);
 		ui.setBounds(0, 0, 200, 300);
 		ui.setResizable(false);
+		ui.setLocationRelativeTo(null);
 	}
 
 }
