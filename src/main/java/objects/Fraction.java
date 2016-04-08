@@ -28,7 +28,7 @@ public class Fraction {
             return null;
 
         if (b.getDenominator() == a.getDenominator())
-            return new Fraction(a.getNumerator() + b.getNumerator(), a.getDenominator());
+            return new Fraction(a.getNumerator() + ((operation.equals(Operations.add)) ? b.getNumerator() : -b.getNumerator()), a.getDenominator());
 
         if (operation.equals(Operations.add) || operation.equals(Operations.sub)) {
             long nok = lcm(a.getDenominator(), b.getDenominator());
