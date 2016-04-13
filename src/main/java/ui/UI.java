@@ -188,17 +188,18 @@ public class UI extends JFrame {
 				}
 				cleanFields();
 				displayLeft(firstFraction);
-				prevNumerator.setText(prevNumerator.getText()+" "+currentOperation.toString());
-			} else {
-				if (currentOperation != null) {
-
-					firstFraction = Fraction.doOperation(firstFraction, currentOperation, rightOperand);
-					cleanFields();
-					displayRight(firstFraction);
-					currentOperation = null;
-					firstFraction = new Fraction();
-				}
+				prevNumerator.setText(prevNumerator.getText() + " " + currentOperation.toString());
+				return;
 			}
+			
+			if (currentOperation != null)
+				firstFraction = Fraction.doOperation(firstFraction, currentOperation, rightOperand);
+			else
+				firstFraction = rightOperand;
+			cleanFields();
+			displayRight(firstFraction);
+			currentOperation = null;
+			firstFraction = new Fraction();
 		}
 	}
 
